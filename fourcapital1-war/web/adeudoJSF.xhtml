@@ -1,0 +1,134 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>FOUR CAPITAL</title>
+        <style>
+            .hideborder tr td{
+                border: hidden !important;
+            }
+        </style>
+    </h:head>
+    <h:body>
+        <h:form id="form">
+            <p:growl id="growl" showDetail="true" sticky="false" />
+            <p:panel id="panel" header="Cliente">
+                <p:panelGrid  styleClass="hideborder">
+                    <p:row >
+                        <p:column>
+                            <h:outputText value="Nombre:" />
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{clienteMB.cliente.nombre}" />
+                        </p:column>
+                        <p:column rowspan="4">
+                            <p:commandButton value="#{clienteMB.botonSolicitudName}" styleClass="ui-priority-primary" disabled="#{clienteMB.botonSolicitud}" actionListener="#{clienteMB.cargaModalSolicitud}"/>
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column>
+                            <h:outputText value="Direccion:" />
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{clienteMB.cliente.direccion}" />
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column>
+                            <h:outputText value="Telefono:" />
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{clienteMB.cliente.telefono}" />
+                        </p:column>
+                    </p:row>
+
+                    <p:row>
+                        <p:column>
+                            <h:outputText value="Correo:" />
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{clienteMB.cliente.correo}" />
+                        </p:column>
+                    </p:row>
+                </p:panelGrid>
+            </p:panel>
+            
+            <p:commandButton value="Actualizar" styleClass="ui-priority-primary" actionListener="#{clienteMB.ActualizarCliente}"/>
+            
+            <br /><br />
+            <p:dataTable var="deuda" value="#{clienteMB.cliente.deudaList}">
+                <f:facet name="header">
+                    Estado de Operaciones
+                </f:facet>
+                <p:column headerText="Operacion">
+                    <h:outputText value="#{deuda.deudaPK.iddeuda}" />
+                </p:column>
+                <p:column headerText="Agencia">
+                    <h:outputText value="#{deuda.agencia}" />
+                </p:column>
+
+                <p:column headerText="Estado">
+                    <h:outputText value="#{deuda.estado}" />
+                </p:column>
+                <p:column style="text-align: center">
+                    <p:commandButton icon="ui-icon-arrowthickstop-1-s" value="Descargar"  disabled="#{deuda.estadoBoton}" action="#{clienteMB.descargarPDF}">
+                        <f:setPropertyActionListener value="#{deuda}" target="#{clienteMB.deudaSelect}" />
+                    </p:commandButton>
+                </p:column>
+            </p:dataTable> 
+
+            <p:dialog id="dlgSolicitud" header="Solicitar Cambio de Datos" widgetVar="dlg" modal="true" >
+                <p:panelGrid styleClass="hideborder">
+                    <p:row >
+                        <p:column>
+                            <h:outputText value="Nombre:" />
+                        </p:column>
+                        <p:column>
+                            <h:inputText value="#{clienteMB.solicitudProceso.nombre}" />
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column>
+                            <h:outputText value="Direccion:" />
+                        </p:column>
+                        <p:column>
+                            <h:inputText value="#{clienteMB.solicitudProceso.direccion}" />
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column>
+                            <h:outputText value="Telefono:" />
+                        </p:column>
+                        <p:column>
+                            <h:inputText value="#{clienteMB.solicitudProceso.telefono}" />
+                        </p:column>
+                    </p:row>
+
+                    <p:row>
+                        <p:column>
+                            <h:outputText value="Correo:" />
+                        </p:column>
+                        <p:column>
+                            <h:inputText value="#{clienteMB.solicitudProceso.correo}" />
+                        </p:column>
+                    </p:row>
+                </p:panelGrid>
+                <p:commandButton value="Solicitar" actionListener="#{clienteMB.enviarSolicitud}"/>
+                <p:commandButton value="Cancelar" onclick="dlg.hide()" />
+            </p:dialog>
+
+            <p:dialog header="Carta de no adeudo" widgetVar="dlg1" modal="true" height="100" showEffect="explode" hideEffect="bounce">
+                <h:outputText value="Estimado aun no ha cancelado el derecho a la carta de adeudo por facvor comunique se con su asesor" />
+            </p:dialog> 
+
+            <p:dialog header="Descarga" widgetVar="dlg2" modal="true" height="100" showEffect="explode" hideEffect="bounce">
+                <h:outputText value="Dercargar." />
+            </p:dialog> 
+        </h:form>
+
+    </h:body>
+</html>
+
