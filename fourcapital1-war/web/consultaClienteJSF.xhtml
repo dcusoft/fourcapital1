@@ -5,32 +5,37 @@
       xmlns:p="http://primefaces.org/ui">
     <h:head>
         <title>FOUR CAPITAL</title>
+        <script language="JavaScript">
+            javascript:window.history.forward(1);
+        </script>
+        
+        <h:outputStylesheet library="css" name="style.css"/>
     </h:head>
-    <h:body>
+    
+    <h:body styleClass="fondo">
         <br /> <br /> <br /> <br /> 
-        <h:form >
+        <h:form id="consulta" >
             <div class="ui-fluid">
                 <center>
-            <p:panel style="width: 80%">
-             
-        El Reporte de Deudas de Four Capital concentra la información de tus deudas.
-        <br /> 
-        Las consultas son totalmente gratuitas. Si desea interpretar la información y aclarar sus dudas,
-        <br /> 
-        consulte con un asesor en línea.  
-        <br /> 
-        <br /> 
-        <p:inputText id="itDNI" placeholder="Ingrese su DNI" style="width: 50%" value="#{clienteMB.dni}" required="true"/>
-         <br /> 
-        <br /> 
-        <p:commandButton value="Consultar" style="width: 50%" styleClass="ui-priority-primary" actionListener="#{clienteMB.getCliente}"/>
-           
-            </p:panel>
+                    <p:panel styleClass="panelInicio">
+                        <h:outputText styleClass="textos" value="El Reporte de Deudas de Four Capital concentra la información de tus deudas.
+                         
+                        Las consultas son totalmente gratuitas. Si desea interpretar la información y aclarar sus dudas,
+                         
+                        consulte con un asesor en línea."/> 
+                        <br /> 
+                        <br /> 
+                        <p:inputText id="itDNI" placeholder="Ingrese su DNI" style="width: 50%" value="#{clienteMB.dni}" required="true"/>
+                        <br /> 
+                        <br /> 
+                        <p:commandButton value="Consultar" style="width: 50%" styleClass="button_example" actionListener="#{clienteMB.getCliente}"/>
+
+                    </p:panel>
                 </center> 
-           </div>
+            </div>
         </h:form>
-        
-        
+
+
     </h:body>
 </html>
 

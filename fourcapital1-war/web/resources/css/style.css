@@ -1,0 +1,226 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 07/06/2018, 09:40:55 AM
+    Author     : Usuario
+*/
+.fondo {
+    background-image:  url(../..//resources/imagenes/fondo-2.png);
+    background-repeat: space;
+    background-size: cover;
+    background-attachment: fixed;
+    background-color: #2b589b;
+    background-repeat: repeat-y;
+}
+
+body {
+    background-image:  url(../..//resources/imagenes/fondo-separado.png);
+    background-repeat: space;
+    background-size: cover;
+    background-attachment: fixed;
+    background-color: #2b589b;
+    background-repeat: repeat-y;
+}
+.contenedor{
+    width: 80%;
+    margin-top: 3%;
+}
+.panelInicio{
+    width: 35%;
+    margin-top: 3%;
+}
+
+@media only screen and (max-width: 600px) {
+    body {
+        background-color: #2b589b;
+        background-image:none;
+
+    }
+    .fondo {
+        background-color: #2b589b;
+        background-image:none;
+
+    }
+    .panelInicio{
+        width: 100%;
+        margin-top: 3%;
+    }
+    .contenedor{
+        width: 100%;
+        margin-top: 0;
+    }
+    .ui-datatable-tablewrapper table tbody td[style="text-align: center"] button
+    {
+        text-indent: -9999px !important;
+        background-image: url(../..//resources/imagenes/downloadarrow.png)!important;
+        background-repeat: no-repeat;
+        background-attachment: inherit;
+        background-position: center;
+
+
+    }
+}
+
+
+.hideborder{
+    width: 50%;
+}
+.hideborder tbody tr td{
+    border: hidden !important;
+}
+.hideborder tbody tr td button{
+    width: auto!important;
+}
+.hideborder tbody tr td[colspan="2"]{
+    background-color: #ffffff;
+}
+.hideborder tr td{
+    border: hidden !important;
+}
+
+.hideborderModal{
+    width: 100%; 
+}
+
+
+.hideborderModal tbody tr td{
+    border: hidden !important;
+    background-color: #ffffff ;
+
+}
+.botonesModal{
+    width: 100%;  
+}
+.botonesModal tbody tr td{
+    border: hidden !important;
+    background-color: #ffffff ;
+    width: 50%; 
+
+}
+.hideborderModal input{
+    width: 100%!important;
+}
+
+
+.ui-panelgrid-even{
+    background: #eeeeee ;  
+}
+.ui-panelgrid-odd{
+    background: #f5f5f5 !important;  
+}
+
+.datosheader{
+    background-color: #2b589b;color: #ffffff;text-align: left;
+    font-weight: normal;
+    font-family: verdana;
+    font-size: medium;
+    text-shadow: -1px -1px 0 rgba(0,0,0,0.3)!important;
+}
+
+.boton{
+    background: #c91749!important;
+    border-radius: 0!important;
+    color: #ffffff!important;
+    font-weight: bold!important;
+    border: none !important; 
+    width: auto !important;
+    position: fixed;
+}
+.ui-datatable * {
+    border-radius:0px;
+    border-color: #ffffff !important;
+
+}
+.ui-datatable-header{
+    background: #ffffff;
+    border: none;
+    text-align: left !important;
+    color: #2b589b;
+
+
+}
+.ui-datatable-tablewrapper table thead th
+{    
+    background: #2b589b !important;
+    border-color: #ffffff !important;
+    color: #ffffff !important;
+    font-weight: normal;
+    font-family: verdana;
+    font-size: medium;
+    border-radius:0px!important;
+    text-shadow: -1px -1px 0 rgba(0,0,0,0.3)!important;
+}
+.ui-datatable-tablewrapper table thead th[style="text-align: center"]
+{
+    background: #ffffff !important; 
+    width: 15%;
+
+}
+
+.ui-datatable-tablewrapper table tbody td[style="text-align: center"]
+{
+    background: #ffffff !important; 
+    padding: 0;
+}
+
+
+.ui-datatable-even{
+    background: #eeeeee ;
+
+}
+.ui-datatable-odd{
+    background: #f5f5f5;  
+}
+
+.tablaVentana{
+    background: #FFFFFF !important;
+}
+div>button{
+    width: auto !important;
+}
+
+.button_example{
+    border:1px solid #971137; 
+    -webkit-border-radius: 0px; 
+    -moz-border-radius: 0px;
+    border-radius: 0px!important;
+
+    font-family:sans-serif !important; 
+
+    text-decoration:none; 
+    display:inline-block;
+    text-shadow: -1px -1px 0 rgba(0,0,0,0.3)!important;
+
+    color: #FFFFFF !important;
+    background-color: #C91749; background-image: -webkit-gradient(linear, left top, left bottom, from(#C91749), to(#d20202))!important;
+    background-image: -webkit-linear-gradient(top, #C91749, #d20202);
+    background-image: -moz-linear-gradient(top, #C91749, #d20202);
+    background-image: -ms-linear-gradient(top, #C91749, #d20202);
+    background-image: -o-linear-gradient(top, #C91749, #d20202);
+    background-image: linear-gradient(to bottom, #C91749, #d20202);filter:progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr=#C91749, endColorstr=#d20202);
+}
+
+.button_example:hover{
+    border:1px solid #6d0d28;
+    background-color: #9b1238; background-image: -webkit-gradient(linear, left top, left bottom, from(#9b1238), to(#9f0202))!important;
+    background-image: -webkit-linear-gradient(top, #9b1238, #9f0202);
+    background-image: -moz-linear-gradient(top, #9b1238, #9f0202);
+    background-image: -ms-linear-gradient(top, #9b1238, #9f0202);
+    background-image: -o-linear-gradient(top, #9b1238, #9f0202);
+    background-image: linear-gradient(to bottom, #9b1238, #9f0202);filter:progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr=#9b1238, endColorstr=#9f0202);
+}
+
+img{
+    margin-bottom:  -5px;
+    width: 20px;
+    height: 20px;
+}
+
+.textos{
+    color: #444444 !important;
+    font: sans-serif;
+    font-size: medium !important;
+}

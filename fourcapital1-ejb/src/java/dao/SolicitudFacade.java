@@ -49,9 +49,7 @@ public class SolicitudFacade extends AbstractFacade<Solicitud> {
     }
 
     public Solicitud guardarSolicitud(Solicitud s) {
-        System.out.println("antes del error");
         em.persist(s);
-        System.out.println("despues del error");
         em.flush();
         return s;
     }

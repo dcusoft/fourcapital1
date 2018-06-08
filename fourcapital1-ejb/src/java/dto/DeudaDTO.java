@@ -6,6 +6,7 @@
 package dto;
 
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  *
@@ -19,7 +20,9 @@ public class DeudaDTO implements Serializable {
     private String producto;
     private String estadoCarta;
     private ClienteDTO cliente;
-    
+    private String nuemroCarta;
+    private String origen;
+    private Date fecha;
     //variables extra
     private boolean estadoBoton;
     private String estado;
@@ -133,6 +136,30 @@ public class DeudaDTO implements Serializable {
 
     public void setEstado(String estado) {
         this.estado = estado;
+    }
+
+    public String getNuemroCarta() {
+        return nuemroCarta;
+    }
+
+    public void setNuemroCarta(String nuemroCarta) {
+        this.nuemroCarta = nuemroCarta;
+    }
+
+    public String getOrigen() {
+        return origen;
+    }
+
+    public void setOrigen(String origen) {
+        this.origen = origen;
+    }
+
+    public Date getFecha() {
+        return fecha;
+    }
+
+    public void setFecha(Date fecha) {
+        this.fecha = fecha;
     }
     
 }

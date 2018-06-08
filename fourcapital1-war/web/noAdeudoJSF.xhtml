@@ -5,6 +5,7 @@
       xmlns:p="http://primefaces.org/ui">
     <h:head>
         <title>FOUR CAPITAL</title>
+        <h:outputStylesheet library="css" name="style.css"/>
     </h:head>
     <h:body>
         <br /> <br /> <br /> <br /> 
@@ -13,11 +14,11 @@
                 <center>
             <p:panel style="width: 80%">
              
-        Estimado cliente el DNI en consulta no figura deuda, presione aceptar para regresar a la web FOUR CAPITAL 
+        Estimado cliente el DNI en consulta no existe, presione aceptar para regresar a la web FOUR CAPITAL 
         
          <br /> 
         <br /> 
-        <p:commandButton value="Aceptar" style="width: 50%" styleClass="ui-priority-primary" action="consultaClienteJSF"/>
+        <p:commandButton value="Aceptar"  styleClass="button_example" actionListener="#{clienteMB.cerrarModalDescarga}"/>
            
             </p:panel>
                 </center> 

@@ -34,6 +34,9 @@ import javax.faces.event.ActionEvent;
 import javax.inject.Named;
 import javax.mail.Session;
 import org.primefaces.PrimeFaces;
+import org.primefaces.context.PrimeFacesContext;
+import org.primefaces.model.StreamedContent;
+import utiles.GeneraPDF;
 
 /**
  *
@@ -41,7 +44,7 @@ import org.primefaces.PrimeFaces;
  */
 @Named(value = "clienteMB")
 @SessionScoped
-public class ClienteMB implements Serializable{
+public class ClienteMB implements Serializable {
 
     /**
      * Creates a new instance of ClienteMB
@@ -62,6 +65,8 @@ public class ClienteMB implements Serializable{
     private boolean botonSolicitud;
     private String botonSolicitudName;
     String servicio = "http://localhost:8080/fourcapitalservice/webresources/entidades.cliente";
+    private boolean aceptar = false;
+    private StreamedContent file;
 
     public ClienteMB() {
     }
@@ -120,10 +125,14 @@ public class ClienteMB implements Serializable{
             } else {
 
                 botonSolicitud = false;
-                botonSolicitudName = "Solicitar Cambio";
+                botonSolicitudName = "Solicitar Cambio de Datos";
             }
             SolicitudProceso = new SolicitudDTO();
             FacesContext.getCurrentInstance().getExternalContext().redirect("faces/adeudoJSF.xhtml");
+//            PrimeFaces.current().executeScript("window.open(\"faces/adeudoJSF.xhtml\", \"Diseño Web\", \"width=800, height=600\")");
+//            dni = "";
+            PrimeFaces.current().ajax().update("consulta:itDNI");
+            
 
         } catch (IOException ex) {
             Logger.getLogger(ClienteMB.class.getName()).log(Level.SEVERE, null, ex);
@@ -131,7 +140,7 @@ public class ClienteMB implements Serializable{
     }
 
     public void cargaModalSolicitud(ActionEvent actionEvent) {
-
+        SolicitudProceso.setClienteIdcliente(cliente);
         SolicitudProceso.setCorreo(cliente.getCorreo());
         SolicitudProceso.setDireccion(cliente.getDireccion());
         SolicitudProceso.setNombre(cliente.getNombre());
@@ -141,43 +150,76 @@ public class ClienteMB implements Serializable{
     }
 
     public void enviarSolicitud(ActionEvent actionEvent) {
-        SolicitudProceso.setClienteIdcliente(cliente);
-        SolicitudProceso.setEstado("procesando");
-        solicitudBO.nuevaSolicitud(SolicitudProceso);
-        botonSolicitud = true;
+        if (SolicitudProceso.getCorreo().equalsIgnoreCase(cliente.getCorreo())
+                && SolicitudProceso.getDireccion().equalsIgnoreCase(cliente.getDireccion())
+                && SolicitudProceso.getNombre().equalsIgnoreCase(cliente.getNombre())
+                && SolicitudProceso.getTelefono().equalsIgnoreCase(cliente.getTelefono())) {
 
-        EnvioCorreo ec = new EnvioCorreo(s);
-        ec.setOrigen("jorgeevj@gmail.com");
-        ec.setClave("evjegroj28");
-        ec.setDestino("jorgeevj@gmail.com");
-        ec.setAsunto("Solicitud de Cambio de datos");
-        ec.setMensaje("<html>"
-                + "<h1><font color='ff0000'>Solicitud de cambio de datos</font></h2>"
-                + "<h2><font color='ffffff'>El cliente con DNI " + cliente.getIdcliente() + " solicita el cambio de los siguientes Datos</font></h2>"
-                + "<p>" + "NOMBRE: " + SolicitudProceso.getNombre() + "</p>"
-                + "<p>" + "DIRECCION: " + SolicitudProceso.getDireccion() + "</p>"
-                + "<p>" + "CORREO: " + SolicitudProceso.getCorreo() + "</p>"
-                + "<p>" + "TELEFONO: " + SolicitudProceso.getTelefono() + "</p>"
-                + "</html>");
-        ec.envio();
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("NO SE ENVIO", "Debes cambiar algun dato"));
+            PrimeFaces.current().ajax().update("form:growl");
+        } else {
+            SolicitudProceso.setClienteIdcliente(cliente);
+            SolicitudProceso.setEstado("procesando");
+            solicitudBO.nuevaSolicitud(SolicitudProceso);
+            botonSolicitud = true;
 
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("ENVIO", "Se envio correctamente la solicitud"));
-        PrimeFaces.current().executeScript("PF('dlg').hide();");
-        botonSolicitudName = "Procesando...";
-        PrimeFaces.current().ajax().update("form:panel");
-        PrimeFaces.current().ajax().update("form:growl");
+            EnvioCorreo ec = new EnvioCorreo(s);
+            ec.setOrigen("jorgeevj@gmail.com");
+            ec.setClave("evjegroj28");
+            ec.setDestino("jorgeevj@gmail.com");
+            ec.setAsunto("Solicitud de Cambio de datos");
+            ec.setMensaje("<html>"
+                    + "<h1><font color='ff0000'>Solicitud de cambio de datos</font></h2>"
+                    + "<h2><font color='ffffff'>El cliente con DNI " + cliente.getIdcliente() + " solicita el cambio de los siguientes Datos</font></h2>"
+                    + "<p>" + "DNI: " + SolicitudProceso.getClienteIdcliente().getIdcliente() + "</p>"
+                    + "<p>" + "NOMBRE: " + SolicitudProceso.getNombre() + "</p>"
+                    + "<p>" + "DIRECCION: " + SolicitudProceso.getDireccion() + "</p>"
+                    + "<p>" + "CORREO: " + SolicitudProceso.getCorreo() + "</p>"
+                    + "<p>" + "TELEFONO: " + SolicitudProceso.getTelefono() + "</p>"
+                    + "</html>");
+            ec.envio();
+
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("ENVIO", "Se envio correctamente la solicitud"));
+            PrimeFaces.current().executeScript("PF('dlg').hide();");
+            botonSolicitudName = "Procesando...";
+            PrimeFaces.current().ajax().update("form:panel");
+            PrimeFaces.current().ajax().update("form:growl");
+        }
 
     }
 
     public void descargarPDF() {
         //RequestContext.getCurrentInstance().execute("PF('dlg1').show();"); //deprecated
-        System.out.println("Estames");
+
         if (deudaSelect.getEstadoCarta().equalsIgnoreCase("pendiente")) {
             PrimeFaces.current().executeScript("PF('dlg1').show();");
         } else {
             PrimeFaces.current().executeScript("PF('dlg2').show();");
         }
 
+    }
+
+    public void aceptarDescarga() {
+
+        file = new GeneraPDF().crear(cliente, deudaSelect);
+
+    }
+
+    public void cerrarModalDescarga(ActionEvent actionEvent) {
+        PrimeFacesContext.getCurrentInstance().getExternalContext().invalidateSession();
+        try {
+            FacesContext.getCurrentInstance().getExternalContext().redirect("../");
+//        PrimeFaces.current().executeScript("PF('dlg2').hide();");
+        } catch (IOException ex) {
+            Logger.getLogger(ClienteMB.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    public void retornaInicio(ActionEvent actionEvent){
+        try {
+            FacesContext.getCurrentInstance().getExternalContext().redirect("../");
+        } catch (IOException ex) {
+            Logger.getLogger(ClienteMB.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     public void ActualizarCliente() {
@@ -192,7 +234,7 @@ public class ClienteMB implements Serializable{
         solicitudBO.editarSolicitud(dto);
         botonSolicitudName = "Procesando...";
         botonSolicitud = false;
-        botonSolicitudName = "Solicitar Cambio";
+        botonSolicitudName = "Solicitar Cambio de Datos";
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Actualizado", "Se actualizo el cliente"));
 
         PrimeFaces.current().ajax().update("form:panel");
@@ -200,17 +242,19 @@ public class ClienteMB implements Serializable{
     }
 
     private ClienteDTO clienteForDTO(Cliente entidad) {
-        ClienteDTO dto = new ClienteDTO();
-        dto.setCorreo(entidad.getCorreo());
-        dto.setDeudaList(listDeudaForDTO(entidad.getDeudaList()));
-        dto.setDireccion(entidad.getDireccion());
-        dto.setIdcliente(entidad.getIdcliente());
-        dto.setNombre(entidad.getNombre());
-        dto.setTelefono(entidad.getTelefono());
-        dto.setTipo(entidad.getTipo());
+        ClienteDTO dto = null;
+        if (entidad != null) {
+            dto = new ClienteDTO();
+            dto.setCorreo(entidad.getCorreo());
+            dto.setDeudaList(listDeudaForDTO(entidad.getDeudaList()));
+            dto.setDireccion(entidad.getDireccion());
+            dto.setIdcliente(entidad.getIdcliente());
+            dto.setNombre(entidad.getNombre());
+            dto.setTelefono(entidad.getTelefono());
+            dto.setTipo(entidad.getTipo());
+        }
         return dto;
     }
-
 
     private List<DeudaDTO> listDeudaForDTO(List<Deuda> deudaList) {
         List<DeudaDTO> ldto = new ArrayList<>();
@@ -227,6 +271,9 @@ public class ClienteMB implements Serializable{
         dto.setMonto(d.getMonto());
         dto.setEstadoCarta(d.getEstadoCarta());
         dto.setProducto(d.getProducto());
+        dto.setNuemroCarta((d.getNuemroCarta() == null) ? "" : d.getNuemroCarta());
+        dto.setOrigen(d.getOrigen());
+        dto.setFecha(d.getFecha());
         return dto;
     }
 
@@ -296,5 +343,21 @@ public class ClienteMB implements Serializable{
     public void setBotonSolicitudName(String botonSolicitudName) {
         this.botonSolicitudName = botonSolicitudName;
     }
-    
+
+    public boolean isAceptar() {
+        return aceptar;
+    }
+
+    public void setAceptar(boolean aceptar) {
+        this.aceptar = aceptar;
+    }
+
+    public StreamedContent getFile() {
+        return file;
+    }
+
+    public void setFile(StreamedContent file) {
+        this.file = file;
+    }
+
 }

@@ -6,6 +6,7 @@
 package entidades;
 
 import java.io.Serializable;
+import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
@@ -14,6 +15,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -34,9 +37,6 @@ import javax.xml.bind.annotation.XmlRootElement;
     , @NamedQuery(name = "Deuda.findByClienteIdcliente", query = "SELECT d FROM Deuda d WHERE d.deudaPK.clienteIdcliente = :clienteIdcliente")})
 public class Deuda implements Serializable {
 
-    private static final long serialVersionUID = 1L;
-    @EmbeddedId
-    protected DeudaPK deudaPK;
     @Size(max = 45)
     @Column(name = "agencia")
     private String agencia;
@@ -49,6 +49,19 @@ public class Deuda implements Serializable {
     @Size(max = 45)
     @Column(name = "estadoCarta")
     private String estadoCarta;
+    @Size(max = 45)
+    @Column(name = "nuemroCarta")
+    private String nuemroCarta;
+    @Size(max = 100)
+    @Column(name = "origen")
+    private String origen;
+    @Column(name = "fecha")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date fecha;
+
+    private static final long serialVersionUID = 1L;
+    @EmbeddedId
+    protected DeudaPK deudaPK;
     @JoinColumn(name = "cliente_idcliente", referencedColumnName = "idcliente", insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private Cliente cliente;
@@ -70,6 +83,40 @@ public class Deuda implements Serializable {
 
     public void setDeudaPK(DeudaPK deudaPK) {
         this.deudaPK = deudaPK;
+    }
+
+
+    public Cliente getCliente() {
+        return cliente;
+    }
+
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 0;
+        hash += (deudaPK != null ? deudaPK.hashCode() : 0);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        // TODO: Warning - this method won't work in the case the id fields are not set
+        if (!(object instanceof Deuda)) {
+            return false;
+        }
+        Deuda other = (Deuda) object;
+        if ((this.deudaPK == null && other.deudaPK != null) || (this.deudaPK != null && !this.deudaPK.equals(other.deudaPK))) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return "entidades.Deuda[ deudaPK=" + deudaPK + " ]";
     }
 
     public String getAgencia() {
@@ -104,37 +151,28 @@ public class Deuda implements Serializable {
         this.estadoCarta = estadoCarta;
     }
 
-    public Cliente getCliente() {
-        return cliente;
+    public String getNuemroCarta() {
+        return nuemroCarta;
     }
 
-    public void setCliente(Cliente cliente) {
-        this.cliente = cliente;
+    public void setNuemroCarta(String nuemroCarta) {
+        this.nuemroCarta = nuemroCarta;
     }
 
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (deudaPK != null ? deudaPK.hashCode() : 0);
-        return hash;
+    public String getOrigen() {
+        return origen;
     }
 
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Deuda)) {
-            return false;
-        }
-        Deuda other = (Deuda) object;
-        if ((this.deudaPK == null && other.deudaPK != null) || (this.deudaPK != null && !this.deudaPK.equals(other.deudaPK))) {
-            return false;
-        }
-        return true;
+    public void setOrigen(String origen) {
+        this.origen = origen;
     }
 
-    @Override
-    public String toString() {
-        return "entidades.Deuda[ deudaPK=" + deudaPK + " ]";
+    public Date getFecha() {
+        return fecha;
+    }
+
+    public void setFecha(Date fecha) {
+        this.fecha = fecha;
     }
     
 }
