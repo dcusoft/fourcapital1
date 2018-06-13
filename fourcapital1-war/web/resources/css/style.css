@@ -9,20 +9,13 @@ and open the template in the editor.
 */
 .fondo {
     background-image:  url(../..//resources/imagenes/fondo-2.png);
-    background-repeat: space;
-    background-size: cover;
-    background-attachment: fixed;
-    background-color: #2b589b;
-    background-repeat: repeat-y;
 }
 
 body {
     background-image:  url(../..//resources/imagenes/fondo-separado.png);
-    background-repeat: space;
     background-size: cover;
-    background-attachment: fixed;
     background-color: #2b589b;
-    background-repeat: repeat-y;
+    background-attachment: fixed;
 }
 .contenedor{
     width: 80%;
@@ -30,9 +23,21 @@ body {
 }
 .panelInicio{
     width: 35%;
-    margin-top: 3%;
+    margin-top: 10%;
+    padding: 0;
 }
+@media screen and (orientation:portrait)
+{
+   body
+   {
+      background-image:none;
+   }
+   .fondo {
+        background-color: #2b589b;
+        background-image:none;
 
+    }
+}
 @media only screen and (max-width: 600px) {
     body {
         background-color: #2b589b;
@@ -45,11 +50,12 @@ body {
 
     }
     .panelInicio{
-        width: 100%;
+        width: 97.8%;
         margin-top: 3%;
+        margin-right: 10%;
     }
     .contenedor{
-        width: 100%;
+        width: 97.8%;
         margin-top: 0;
     }
     .ui-datatable-tablewrapper table tbody td[style="text-align: center"] button
