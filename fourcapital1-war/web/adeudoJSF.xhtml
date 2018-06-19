@@ -8,7 +8,7 @@
         <title>FOUR CAPITAL</title>
         <link rel="shortcut icon" href="resources/imagenes/logo.ico"></link>
         <meta name="viewport" content="width=device-width, initial-scale=1"></meta>
-        
+
         <h:outputStylesheet library="css" name="style.css"/>
         <script src="resources/js/mobile.js" type="text/javascript"></script>
     </h:head>
@@ -128,7 +128,7 @@
 
                     </p:panel>
                 </center>
-                <p:dialog id="dlgSolicitud" header="Solicitar Cambio de Datos" widgetVar="dlg" modal="true" showEffect="explode">
+                <p:dialog id="dlgSolicitud" header="Solicitar Cambio de Datos" widgetVar="dlg" modal="true" showEffect="explode" >
                     <center>
                         <div class="ui-fluid"  >
                             <p:panelGrid styleClass="hideborderModal" >
@@ -137,7 +137,7 @@
                                         <h:outputText value="DNI:" styleClass="textos"/>
                                     </p:column>
                                     <p:column>
-                                        <h:inputText value="#{clienteMB.solicitudProceso.clienteIdcliente.idcliente}" disabled="true"/>
+                                        <p:inputText value="#{clienteMB.solicitudProceso.clienteIdcliente.idcliente}" disabled="true" maxlength="10"/>
                                     </p:column>
                                 </p:row>
                                 <p:row >
@@ -145,7 +145,7 @@
                                         <h:outputText value="Nombre:" styleClass="textos"/>
                                     </p:column>
                                     <p:column>
-                                        <h:inputText value="#{clienteMB.solicitudProceso.nombre}" />
+                                        <p:inputText value="#{clienteMB.solicitudProceso.nombre}" maxlength="100"/>
                                     </p:column>
                                 </p:row>
                                 <p:row >
@@ -153,15 +153,17 @@
                                         <h:outputText value="Direccion:" styleClass="textos"/>
                                     </p:column>
                                     <p:column>
-                                        <h:inputText value="#{clienteMB.solicitudProceso.direccion}" />
+                                        <p:inputText value="#{clienteMB.solicitudProceso.direccion}" maxlength="100"/>
                                     </p:column>
                                 </p:row>
                                 <p:row >
                                     <p:column>
-                                        <h:outputText value="Telefono:" styleClass="textos"/>
+                                        <h:outputText value="Telefono:" styleClass="textos" />
                                     </p:column>
                                     <p:column>
-                                        <h:inputText value="#{clienteMB.solicitudProceso.telefono}" />
+                                        <p:inputText value="#{clienteMB.solicitudProceso.telefono}" maxlength="12">
+                                            <p:keyFilter regEx="/\d+/i"/>
+                                        </p:inputText>
                                     </p:column>
                                 </p:row >
 
@@ -170,7 +172,9 @@
                                         <h:outputText value="Correo:" styleClass="textos"/>
                                     </p:column>
                                     <p:column>
-                                        <h:inputText value="#{clienteMB.solicitudProceso.correo}" />
+                                        <p:inputText value="#{clienteMB.solicitudProceso.correo}"  id="email">
+                                            
+                                        </p:inputText>
                                     </p:column>
                                 </p:row>
                             </p:panelGrid>
@@ -178,10 +182,10 @@
                             <p:panelGrid styleClass="botonesModal" >
                                 <p:row >
                                     <p:column>
-                                        <p:commandButton value="Solicitar"  actionListener="#{clienteMB.enviarSolicitud}" styleClass="button_example"/>
+                                        <p:commandButton value="Solicitar"  actionListener="#{clienteMB.enviarSolicitud}" styleClass="button_example" />
                                     </p:column>
                                     <p:column>
-                                        <p:commandButton value="Cancelar" onclick="dlg.hide()" styleClass="button_example"/>
+                                        <p:commandButton value="Cancelar" actionListener="#{clienteMB.cancelarSolicitud}" styleClass="button_example"/>
                                     </p:column>
                                 </p:row>
                             </p:panelGrid>
@@ -196,12 +200,12 @@
                                   por facvor comuníquese con su asesor a los telefonos."/> 
                     <br />
                     <center>
-                    <img src="resources/imagenes/phone_90567.png" alt=""/>
-                    <h:outputText styleClass="textos" value="(01)500-5960,"/>
-                    <img src="resources/imagenes/Whatsapp_icon-icons.com_66931.png" alt=""/>
-                    <h:outputText styleClass="textos" value="953 899 312, "/>
-                    <img src="resources/imagenes/Whatsapp_icon-icons.com_66931.png" alt=""/>
-                    <h:outputText styleClass="textos" value="934 794 332."/></center>
+                        <img src="resources/imagenes/phone_90567.png" alt=""/>
+                        <h:outputText styleClass="textos" value="(01)500-5960,"/>
+                        <img src="resources/imagenes/Whatsapp_icon-icons.com_66931.png" alt=""/>
+                        <h:outputText styleClass="textos" value="953 899 312, "/>
+                        <img src="resources/imagenes/Whatsapp_icon-icons.com_66931.png" alt=""/>
+                        <h:outputText styleClass="textos" value="934 794 332."/></center>
                 </p:dialog> 
 
 

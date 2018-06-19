@@ -24,6 +24,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import javax.ejb.EJB;
@@ -132,7 +134,11 @@ public class ClienteMB implements Serializable {
 //            PrimeFaces.current().executeScript("window.open(\"faces/adeudoJSF.xhtml\", \"Diseño Web\", \"width=800, height=600\")");
 //            dni = "";
             PrimeFaces.current().ajax().update("consulta:itDNI");
-            
+            SolicitudProceso.setClienteIdcliente(cliente);
+            SolicitudProceso.setCorreo(cliente.getCorreo());
+            SolicitudProceso.setDireccion(cliente.getDireccion());
+            SolicitudProceso.setNombre(cliente.getNombre());
+            SolicitudProceso.setTelefono(cliente.getTelefono());
 
         } catch (IOException ex) {
             Logger.getLogger(ClienteMB.class.getName()).log(Level.SEVERE, null, ex);
@@ -150,6 +156,13 @@ public class ClienteMB implements Serializable {
     }
 
     public void enviarSolicitud(ActionEvent actionEvent) {
+        
+        if(!validaCorreo(SolicitudProceso.getCorreo())){
+           
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Correo", "El correo ingresado no es valido"));
+            PrimeFaces.current().ajax().update("form:growl"); 
+        return;
+        }
         if (SolicitudProceso.getCorreo().equalsIgnoreCase(cliente.getCorreo())
                 && SolicitudProceso.getDireccion().equalsIgnoreCase(cliente.getDireccion())
                 && SolicitudProceso.getNombre().equalsIgnoreCase(cliente.getNombre())
@@ -184,8 +197,15 @@ public class ClienteMB implements Serializable {
             botonSolicitudName = "Procesando...";
             PrimeFaces.current().ajax().update("form:panel");
             PrimeFaces.current().ajax().update("form:growl");
+             SolicitudProceso.setClienteIdcliente(cliente);
+        
         }
 
+    }
+
+    public void cancelarSolicitud(ActionEvent actionEvent) {
+        
+        PrimeFaces.current().executeScript("PF('dlg').hide();");
     }
 
     public void descargarPDF() {
@@ -214,7 +234,8 @@ public class ClienteMB implements Serializable {
             Logger.getLogger(ClienteMB.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    public void retornaInicio(ActionEvent actionEvent){
+
+    public void retornaInicio(ActionEvent actionEvent) {
         try {
             FacesContext.getCurrentInstance().getExternalContext().redirect("../");
         } catch (IOException ex) {
@@ -358,6 +379,13 @@ public class ClienteMB implements Serializable {
 
     public void setFile(StreamedContent file) {
         this.file = file;
+    }
+
+    private boolean validaCorreo(String correo) {
+    String pattern = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$"; 
+    Pattern r = Pattern.compile(pattern);
+    Matcher m =r.matcher(correo);
+    return m.find();
     }
 
 }

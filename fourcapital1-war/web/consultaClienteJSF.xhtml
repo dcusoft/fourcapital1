@@ -29,7 +29,9 @@
                         consulte con un asesor en línea."/> 
                         <br /> 
                         <br /> 
-                        <p:inputText id="itDNI" placeholder="Ingrese su DNI" style="width: 50%" value="#{clienteMB.dni}" required="true"/>
+                        <p:inputText id="itDNI" placeholder="Ingrese su DNI o RUC" style="width: 50%" value="#{clienteMB.dni}" required="true"  maxlength="10">
+                        <p:keyFilter regEx="/[0-9]/i"/>
+                        </p:inputText>
                         <br /> 
                         <br /> 
                         <p:commandButton value="Consultar" style="width: 50%" styleClass="button_example" actionListener="#{clienteMB.getCliente}"/>
